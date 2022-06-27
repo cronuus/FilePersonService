@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +17,7 @@ namespace PersonService
                 Directory.CreateDirectory(path);
             fileName = Path.Combine(path, "person.txt");
         }
-        
-         public void Create(Person person, int count)
+        public void Create(Person person, int count)
         {
             string[] personstr = new string[4];
             for (int i = 0; i < count; i++)
@@ -31,26 +30,23 @@ namespace PersonService
             }
         }
         public List<Person> ConvertToPerson(string[] persons)
-
         {
-
             List<Person> people = new List<Person>();
-
             for (int i = 0; i < persons.Length; i = i + 4)
             {
                 people.Add(new Person()
                 {
                     Id = Guid.Parse(persons[i]),
-                    Age = Convert.ToInt16(persons[i + 1]),
+                    Age = Convert.ToInt16(persons[i + 3]),
                     LastName = persons[i + 2],
-                    Name = persons[i + 3]
+                    Name = persons[i + 1]
                 });
             }
             return people;
         }
         public string[] Read()
         {
-            string[] persons = new string[] { };
+            string[] persons;
             persons = File.ReadAllLines(fileName);
             return persons;
         }
@@ -62,7 +58,7 @@ namespace PersonService
                     $"AGE: {person.Age}\n" +
                     $"LAST NAME: {person.LastName}\n" +
                     $"FIRST NAME: {person.Name}\n" +
-                    $"{new string('_', 15)}");
+                    $"{new string('_', 30)}");
             }
         }
     }
