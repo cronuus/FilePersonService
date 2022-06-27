@@ -32,7 +32,7 @@ namespace PersonService
         public List<Person> ConvertToPerson(string[] persons)
         {
             List<Person> people = new List<Person>();
-            for (int i = 0; i < persons.Length; i = i + 4)
+            for (int i = 0; i < persons.Length; i += 4)
             {
                 people.Add(new Person()
                 {
