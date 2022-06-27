@@ -12,6 +12,7 @@ namespace PersonService
         static void Main(string[] args)
         {
             PersonService personService = new PersonService();
+            List<Person> people = new List<Person>();
             Random rnd = new Random();
             personService.Create(new Person()
             {
@@ -19,13 +20,8 @@ namespace PersonService
                 LastName = "Valodyan",
                 Age = rnd.Next(10, 80)
             }, 50);
-            string[] arr = File.ReadAllLines(personService.fileName);
-            personService.ConvertToPerson(arr);
-            personService.Read();
-            var people = new List<Person>();
-            object[] persons = people.ToArray();
-            persons = File.ReadAllLines(personService.fileName);
-            personService.Print(persons);
+            people = personService.ConvertToPerson(personService.Read());
+            personService.Print(people);
         }
     }
 }
