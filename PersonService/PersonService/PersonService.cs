@@ -46,10 +46,9 @@ namespace PersonService
         }
         public void Print(List<Person> people)
         {
-            var list = new List<Person>();
             foreach (var person in people)
             {
-                list.Add(person);
+                Console.WriteLine(person.Name + person.LastName + person.age + person.id)
             }
         }
     }
