@@ -36,28 +36,17 @@ namespace PersonService
 
             List<Person> people = new List<Person>();
 
-            for (int i = 0; i < persons.Length / 4; i = i + 4)
-
+            for (int i = 0; i < persons.Length; i = i + 4)
             {
-
                 people.Add(new Person()
-
                 {
-
                     Id = Guid.Parse(persons[i]),
-
                     Age = Convert.ToInt16(persons[i + 1]),
-
                     LastName = persons[i + 2],
-
                     Name = persons[i + 3]
-
                 });
-
             }
-
             return people;
-
         }
         public string[] Read()
         {
@@ -66,23 +55,14 @@ namespace PersonService
             return persons;
         }
         public void Print(List<Person> people)
-
         {
-
             foreach (var person in people)
-
             {
-
                 Console.WriteLine($"ID: {person.Id.ToString()}\n" +
-
                     $"AGE: {person.Age}\n" +
-
                     $"LAST NAME: {person.LastName}\n" +
-
                     $"FIRST NAME: {person.Name}\n" +
-
                     $"{new string('_', 15)}");
-
             }
         }
     }
