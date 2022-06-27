@@ -17,7 +17,8 @@ namespace PersonService
                 Directory.CreateDirectory(path);
             fileName = Path.Combine(path, "person.txt");
         }
-        public void Create(Person person, int count)
+        
+         public void Create(Person person, int count)
         {
             string[] personstr = new string[4];
             for (int i = 0; i < count; i++)
@@ -29,14 +30,34 @@ namespace PersonService
                 File.AppendAllLines(fileName, personstr);
             }
         }
-        public List<string> ConvertToPerson(string[] persons)
+        public List<Person> ConvertToPerson(string[] persons)
+
         {
-            var list = new List<string>();
-            foreach (var item in persons)
+
+            List<Person> people = new List<Person>();
+
+            for (int i = 0; i < persons.Length / 4; i = i + 4)
+
             {
-                list.Add(item);
+
+                people.Add(new Person()
+
+                {
+
+                    Id = Guid.Parse(persons[i]),
+
+                    Age = Convert.ToInt16(persons[i + 1]),
+
+                    LastName = persons[i + 2],
+
+                    Name = persons[i + 3]
+
+                });
+
             }
-            return list;
+
+            return people;
+
         }
         public string[] Read()
         {
@@ -45,10 +66,23 @@ namespace PersonService
             return persons;
         }
         public void Print(List<Person> people)
+
         {
+
             foreach (var person in people)
+
             {
-                Console.WriteLine(person.Name + person.LastName + person.age + person.id)
+
+                Console.WriteLine($"ID: {person.Id.ToString()}\n" +
+
+                    $"AGE: {person.Age}\n" +
+
+                    $"LAST NAME: {person.LastName}\n" +
+
+                    $"FIRST NAME: {person.Name}\n" +
+
+                    $"{new string('_', 15)}");
+
             }
         }
     }
