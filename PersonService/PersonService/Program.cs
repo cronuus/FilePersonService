@@ -26,8 +26,6 @@ namespace PersonService
             object[] persons = people.ToArray();
             persons = File.ReadAllLines(personService.fileName);
             personService.Print(people);
-            foreach (var item in persons)
-            Console.WriteLine(item);
         }
     }
 }
