@@ -25,7 +25,7 @@ namespace PersonService
             var people = new List<Person>();
             object[] persons = people.ToArray();
             persons = File.ReadAllLines(personService.fileName);
-            personService.Print(people);
+            personService.Print(persons);
         }
     }
 }
