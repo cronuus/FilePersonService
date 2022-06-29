@@ -1,6 +1,6 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,50 +15,69 @@ namespace PersonService
         {
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            fileName = Path.Combine(path, "person.txt");
+            path = Path.Combine(path, "person.txt");
         }
         public void Create(Person person, int count)
         {
-            string[] personstr = new string[4];
-            for (int i = 0; i < count; i++)
+            using (FileStream fstream = new FileStream(path, FileMode.Append))
             {
-                personstr[0] = person.Id.ToString();
-                personstr[1] = person.Name;
-                personstr[2] = person.LastName;
-                personstr[3] = person.Age.ToString();
-                File.AppendAllLines(fileName, personstr);
+                byte[] buffer;
+                for (int i = 0; i < count; i++)
+                {
+                    buffer = Encoding.Default.GetBytes(person.Id.ToString() + "\n"
+                        + person.Age.ToString() + "\n"
+                        + person.LastName + "\n"
+                        + person.Name + "\n");
+                    fstream.Write(buffer, 0, buffer.Length);
+                }
             }
         }
         public List<Person> ConvertToPerson(string[] persons)
         {
             List<Person> people = new List<Person>();
-            for (int i = 0; i < persons.Length; i += 4)
+            for (int i = 0; i < persons.Length; i = i + 4)
             {
-                people.Add(new Person()
+                try
                 {
-                    Id = Guid.Parse(persons[i]),
-                    Age = Convert.ToInt16(persons[i + 3]),
-                    LastName = persons[i + 2],
-                    Name = persons[i + 1]
-                });
+                    people.Add(new Person()
+                    {
+                        Id = Guid.Parse(persons[i]),
+                        Age = Convert.ToInt16(persons[i + 1]),
+                        LastName = persons[i + 2],
+                        Name = persons[i + 3]
+                    });
+                }
+                catch(Exception ex)
+                {
+
+                }
             }
             return people;
         }
         public string[] Read()
         {
             string[] persons;
-            persons = File.ReadAllLines(fileName);
+            using (FileStream fstream = File.OpenRead(path))
+            {
+                byte[] buffer = new byte[fstream.Length];
+                fstream.Read(buffer, 0, buffer.Length);
+                string textFromFile = Encoding.Default.GetString(buffer);
+                persons = textFromFile.Split('\n');
+            }
             return persons;
         }
         public void Print(List<Person> people)
         {
             foreach (var person in people)
             {
-                Console.WriteLine($"ID: {person.Id.ToString()}\n" +
-                    $"AGE: {person.Age}\n" +
-                    $"LAST NAME: {person.LastName}\n" +
-                    $"FIRST NAME: {person.Name}\n" +
-                    $"{new string('_', 30)}");
+                Console.WriteLine(
+                    $"Firstname:{person.Name}\n" +
+                    $"LastName:{person.LastName}\n" +
+                    $"Age:{person.Age}\n" +
+                    $"ID: {person.Id.ToString()}\n" +
+                    $"{new string('_', 15)}"
+
+                    );
             }
         }
     }

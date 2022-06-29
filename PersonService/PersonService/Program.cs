@@ -16,8 +16,8 @@ namespace PersonService
             Random rnd = new Random();
             personService.Create(new Person()
             {
-                Name = "Valod",
-                LastName = "Valodyan",
+                Name = "Firstame",
+                LastName = "Lastname",
                 Age = rnd.Next(10, 80)
             }, 50);
             people = personService.ConvertToPerson(personService.Read());
